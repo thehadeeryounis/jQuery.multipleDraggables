@@ -11,7 +11,7 @@
         var settings = $.extend({
             start: function () {},
             drag: function () {},
-            stop: function () {},
+            stop: function () {}
         }, options);
         var offset = 0;
         this.addClass('ui-multi-draggables');
