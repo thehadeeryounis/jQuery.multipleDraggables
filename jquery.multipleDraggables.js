@@ -1,7 +1,7 @@
 /*
  * jQuery Multiple Draggables
  *
- * Version 0.6
+ * Version 0.8
  *
  * Author : Hadeer Younis <iistcrimi@gmail.com>
  *
@@ -10,64 +10,55 @@
     $.fn.multipleDraggables = function (options) {
 
         var settings = $.extend({
+            handle: false,
             start: function() {},
             drag: function() {},
             stop: function() {},
             select: false,
             click: function() {},
             placeholder: 'clone',
-            highlight: 'highlight'
+            highlight: 'ui-multi-selected'
         }, options);
 
         var offset = 0;
-        var us = this;
         var t;
         var to_drag = this;
+        var down = 1;
+        
+        attachDragEventHandler(this);
 
-        if(settings.select)
-        {
-            onClickHandler();
-        }
-        else
-        {
-            this.mousedown(function () {
-                $('.ui-multi-dragging').removeClass('ui-multi-dragging');
-                $(this).addClass('ui-multi-dragging');
-            });
-            attachDragEventHandler(this);
-        }
+        attachMouseListener(this);
+    
         /*******************HELPER METHODS***************************/
 
-        function onClickHandler()
+        function attachMouseListener(us)
         {
-            $(us).click(function(){
-                if($(this).hasClass('ui-multi-fix'))
-                {
-                    $(this).removeClass('ui-multi-fix');
-                    return;
-                }
-                $(this).toggleClass('ui-multi-selected '+settings.highlight);
-                if($(this).hasClass('ui-multi-selected '+settings.highlight))
-                {
-                    to_drag = $('.ui-multi-selected');
-                    $(this).mousedown(function () {
-                        $('.ui-multi-dragging').removeClass('ui-multi-dragging');
-                        $(this).addClass('ui-multi-dragging');
-                    });
-                    attachDragEventHandler(this);
-                }
+            $(us).mousedown(function () {
+                if($(this).hasClass(settings.highlight))
+                    down = 1;
                 else
-                {
-                    to_drag = $('.ui-multi-selected');
-                    $(this).draggable("destroy")
-                    $(this).unbind('mousedown');
-                }
-                settings.click()
+                    down = -1;
+                $(this).addClass(settings.highlight);
+                $('.ui-multi-dragging').removeClass('ui-multi-dragging');
+                $(this).addClass('ui-multi-dragging');
+                to_drag = $('.'+settings.highlight).not('.ui-multi-dragging');
+                console.log(to_drag);
             });
+
+            if(!settings.select)
+                $(us).addClass(settings.highlight)
+            else
+                $(us).mouseup(function(){
+                    down++;
+                    if(down == 2)
+                        $(this).removeClass(settings.highlight)
+                    settings.click()    
+                });
         }
 
         function attachDragEventHandler(me) {
             $(me).draggable({
+                handle: settings.handle,
                 start: function () {
                     startHelper();
                     settings.start();
@@ -90,32 +81,26 @@
         }
 
         function startHelper() {
+            down++;
             offset = $('.ui-multi-dragging').position();
-            $('.ui-multi-dragging').addClass('ui-multi-fix')
-            var i = 0;
-            var sisters = [];
             $(to_drag).each(function () {
                 jQuery.data(this, 'x', $(this).position().left);
                 jQuery.data(this, 'y', $(this).position().top);
-                sisters.push($(this).clone())
+                $(this).after('<div class="'+settings.placeholder+'"></div>')
+                $(this).next().hide();
             }).css('position', 'absolute');
-            $(to_drag).each(function(){
-                $(this).after(sisters[i].addClass(settings.placeholder));
-                if($(this).hasClass('ui-multi-dragging'))
-                {
-                    $(this).css('margin-right','-'+$(this).outerWidth()+'px')
-                    $(this).next().removeClass('ui-multi-dragging');
-                }
-                i++;
+            $('.ui-multi-dragging').after('<div class="'+settings.placeholder+'"></div>');
+            $('.ui-multi-dragging').css({
+                marginRight: '-'+$('.ui-multi-dragging').outerWidth()+'px !important',
+                position: 'relative !important'
             });
+            $('.'+settings.placeholder).show();
             t = window.setTimeout(help, 400);
         }
 
         function revertHelper() {
             clearTimeout(t);
             $(to_drag).each(function () {
-                if($(this).hasClass('ui-multi-dragging'))
-                    return;
                 $(this).addClass('animate2').css({
                     transform: 'rotate(0deg)',
                     '-moz-transform': 'rotate(0deg)',
@@ -129,15 +114,14 @@
 
         function stopHelper() {
             $(to_drag).removeClass('rotate animate animate2').removeAttr('style')
-            $('.clone').remove()
+            $('.'+settings.placeholder).remove();
+            $('.ui-multi-dragging').removeAttr('style');
             settings.stop();
         }
 
         function help() {
             var deg = 15;
             $(to_drag).each(function () {
-                if($(this).hasClass('ui-multi-dragging'))
-                    return;
                 $(this).addClass('animate')
                 var d_x = offset.left - parseInt(jQuery.data(this, "x"));
                 var d_y = offset.top - parseInt(jQuery.data(this, "y"));
@@ -154,8 +138,6 @@
         function dragHelper(e) {
             var offset_new = $('.ui-multi-dragging').position();
             $(to_drag).each(function () {
-                if($(this).hasClass('ui-multi-dragging'))
-                    return;
                 var me_x = parseInt(jQuery.data(this, "x"), 10) + (offset_new.left - offset.left);
                 var me_y = parseInt(jQuery.data(this, "y"), 10) + (offset_new.top - offset.top);
                 $(this).css({

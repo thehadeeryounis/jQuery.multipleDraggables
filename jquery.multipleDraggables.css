@@ -13,20 +13,7 @@
         -o-transition: all 0.5s;
 }
 
-.ui-multi-selected
-{
-        border:2px solid blue !important;
-}
-
 .ui-multi-dragging
 {
         position: relative !important;
-}
-
-.clone
-{
-        background-color:rgba(0,0,0,0.3) !important;
-        opacity:0.5;
-        z-index:-1 !important;
-        position: relative;
 }

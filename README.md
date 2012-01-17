@@ -4,7 +4,7 @@ This is a jQuery plugin that works on top of jQueryUI to offer multiple draggabl
 
 ## Version
 
-* 0.6 beta
+* 0.8 beta
 
 ## Dependencies
 
@@ -45,7 +45,7 @@ $('.draggable').multipleDraggable({
 	    },
         stop: function(){ 
 	        console.log('Stopped Multiple Drag');
-	    },
+	    }
 });
 ```
 
