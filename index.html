@@ -1,26 +1,166 @@
 <html>
 <head>
-<style>
-*       {padding:0;margin:0}       
-html    {background:#efefef;}
-div.draggable   {display:inline-block; background: #ff6699; width:40px; height:40px; cursor:move}
-</style>
-<link rel="stylesheet" href="jquery.multipleDraggables.css" type="text/css" media="screen" " charset="utf-8" />
+<link rel="stylesheet" href="jquery.multipleDraggables.css" type="text/css" media="screen"/>
+<link rel="stylesheet" href="example.css" type="text/css" media="screen"/>
 <script src="jquery.js"></script>
 <script src="jqueryui.js"></script>
 <script src="jquery.multipleDraggables.js"></script>
 <script>
 $(function(){
-        $('.draggable').multipleDraggable();
+        $('#two>div').multipleDraggables({
+	        select:true, 
+	        placeholder:'clone',
+	        highlight: 'one'
+	    });
+	    
+        $('#one>div').multipleDraggables({
+	        highlight: 'two', 
+	        placeholder:'clone'
+	    });
 });
+</script>
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-28427203-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
 </script>
 </head>
 <body>
-<div class="draggable"></div>
-<div class="draggable"></div>
-<div class="draggable"></div>
-<div class="draggable"></div>
-<div class="draggable"></div>
-<div class="draggable"></div>
+	<header>
+		<h1>jquery.multipledraggables</h1>
+		<p>
+			This is a jQuery plugin that works on top of jQueryUI to offer multiple draggable elements. So it basically allows the user to select multiple elements to drag at the same. This plugin uses CSS3 for the animations, but default functionality will still work in older browsers.
+		</p>
+	</header>
+	<section id="one">
+		<h2>Example one</h2>
+		<p>
+			In this example, all of the elements below can be dragged togther at the same time.
+		</p>
+		<div class="draggable"></div>
+		<div class="draggable"></div>
+		<div class="draggable"></div>
+		<div class="draggable"></div>
+		<div class="draggable"></div>
+		<div class="draggable"></div>
+</section>
+<section id="two">
+	<h2>Example two</h2>
+	<p>
+		In this example, you can select which of the elements below you want to drag togther. Simply click to toggle which ones will be dragged.
+	</p>
+	<div class="draggable"></div>
+	<div class="draggable"></div>
+	<div class="draggable"></div>
+	<div class="draggable"></div>
+	<div class="draggable"></div>
+	<div class="draggable"></div>
+</section>
+<section id="usage">
+	<h2>Usage</h2>
+	<ol>
+		<li>
+			You must include this in the head part of your html page. Where ".draggable" is the class given to all the elements that will be dragged together.
+
+<pre>
+&lt;script src="jquery.js"&gt;&lt;/script&gt;
+&lt;script src="jqueryui.js"&gt;&lt;/script&gt;
+&lt;script src="jquery.multipleDraggable.js"&gt;&lt;/script&gt;
+&lt;script&gt;
+$(function(){
+    $('.draggable').multipleDraggable();
+});
+&lt;/script&gt;
+&lt;/head&gt;</pre>
+		</li>
+		<li>
+			You can extend the functionality by adding start, drag &amp; stop functions just like in jQuery's draggable.
+			<pre>
+$('.draggable').multipleDraggable({
+	start: function(){ 
+		console.log('Starting Multiple Drag');
+	},
+	drag: function(){ 
+		console.log('dragging!');
+	},
+	stop: function(){ 
+		console.log('Stopped Multiple Drag');
+	}
+});</pre>
+		</li>
+		<li>
+			You can enable the user to first select the item's to be dragged by setting the 'select' attribute to true. You can also specifiy a custom class for the selected item's to have to diffrentiate them from the none selected items using the 'highlight' attribute. Moreover you can extend the select functionality by adding a click function.
+			<pre>
+$('.draggable').multipleDraggable({
+	select: true,
+	highlight: 'highlighted',
+	click: function(){ 
+		console.log('Selected element to drag');
+	}
+});</pre>
+		</li>
+		<li>
+			Also if you don't like the way the placeholder looks, you can customize it by setting a custom class to the 'placeholder' attribute.
+			<pre>
+$('.draggable').multipleDraggable({
+	placeholder: 'placeholder'
+});</pre>
+		</li>
+		<li>
+			In the body part of your html page all you need to add is the following:
+			<pre>
+&lt;body&gt;
+	&lt;div class="draggable"&gt;&lt;/div&gt;
+	&lt;div class="draggable"&gt;&lt;/div&gt;
+	&lt;div class="draggable"&gt;&lt;/div&gt;
+	&lt;div class="draggable"&gt;&lt;/div&gt;
+	&lt;div class="draggable"&gt;&lt;/div&gt;
+	&lt;div class="draggable"&gt;&lt;/div&gt;
+&lt;/body&gt;</pre>
+		</li>
+	<ul>
+</section>
+<section id="download">
+<h2>How to get it!</h2>
+	<ul>
+		<li>Download the <a href="http://elleestcrimi.me/wp-content/plugins/download-monitor/download.php?id=1">zip</a></li>
+		<li>Clone it off from <a href="https://github.com/elleestcrimi/jQuery.multipleDraggables">github</a></li>
+	</ul>
+</section>
+<section id="contact">
+<h2>Contact</h2>
+	<ul>
+		<li><b>Twitter:</b> @elleestcrimi</li>
+		<li><b>Email:</b> iistcrimi@gmail.com</li>
+	</ul>
+</section>
+<section id="disqus">
+<h2>Discussion</h2>
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+    var disqus_shortname = 'jquerymultipledraggable'; // required: replace example with your forum shortname
+
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">blog comments powered by <span class="logo-disqus">Disqus</span></a>
+</section>
+<footer>
+	&copy; elleestcrimi.me, 2012
+</footer>
 </body>
 </html>

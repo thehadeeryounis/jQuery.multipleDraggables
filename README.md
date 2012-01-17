@@ -1,6 +1,10 @@
 # jQuery.multipleDraggables
 
-This is a jQuery plugin that works on top of jQueryUI to offer multiple draggable elements. So it basically allows the user to drag multiple objects at the same. This plugin uses CSS3 for the animations, but default functionality will still work in older browsers.
+This is a jQuery plugin that works on top of jQueryUI to offer multiple draggable elements. So it basically allows the user to select multiple elements to drag at the same. This plugin uses CSS3 for the animations, but default functionality will still work in older browsers.
+
+## Version
+
+* 0.8 beta
 
 ## Dependencies
 
@@ -33,23 +37,51 @@ $(function(){
 
 ```
 $('.draggable').multipleDraggable({
-        start: function(){ console.log('Starting Multiple Drag');},
-        drag: function(){ console.log('dragging!');},
-        stop: function(){ console.log('Stopped Multiple Drag');}
+        start: function(){ 
+	        console.log('Starting Multiple Drag');
+	    },
+        drag: function(){ 
+	        console.log('dragging!');
+	    },
+        stop: function(){ 
+	        console.log('Stopped Multiple Drag');
+	    }
 });
 ```
 
-3) In the body part of your html page all you need to add is the following:
+3) You can enable the user to first select the item's to be dragged by setting the 'select' attribute to true. You can also specifiy a custom class for the selected item's to have to diffrentiate them from the none selected items using the 'highlight' attribute. Moreover you can extend the select functionality by adding a click function.
+
+```
+$('.draggable').multipleDraggable({
+	select: true,
+	highlight: 'highlighted',
+	click: function(){ 
+		console.log('Selected element to drag');
+	}
+});
+```
+
+4) Also if you don't like the way the placeholder looks, you can customize it by setting a custom class to the 'placeholder' attribute.
+
+```
+$('.draggable').multipleDraggable({
+	placeholder: 'placeholder'
+});
+```
+
+5) In the body part of your html page all you need to add is the following:
 
 ```
 <body>
-<div class="draggable" ></div>
-<div class="draggable" ></div>
-<div class="draggable" ></div>
-<div class="draggable" ></div>
+	<div class="draggable"></div>
+	<div class="draggable"></div>
+	<div class="draggable"></div>
+	<div class="draggable"></div>
+	<div class="draggable"></div>
+	<div class="draggable"></div>
 </body>
 ```
 
-4) And thats it!
+5) And thats it!
 
-5) You can see the demo at [this link](http://labs.elleestcrimi.me/jquery-multipledraggable/)
+6) You can see the demo at [this link](http://labs.elleestcrimi.me/jquery-multipledraggable/)

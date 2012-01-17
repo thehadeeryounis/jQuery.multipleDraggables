@@ -13,12 +13,7 @@
         -o-transition: all 0.5s;
 }
 
-.ui-multi-draggables
-{
-        z-index: 2;
-}
-
 .ui-multi-dragging
 {
-        z-index:3;
+        position: relative !important;
 }
