@@ -1,26 +1,121 @@
 <html>
 <head>
-<style>
-*       {padding:0;margin:0}       
-html    {background:#efefef;}
-div.draggable   {display:inline-block; background: #ff6699; width:40px; height:40px; cursor:move}
-</style>
-<link rel="stylesheet" href="jquery.multipleDraggables.css" type="text/css" media="screen" " charset="utf-8" />
+<link rel="stylesheet" href="jquery.multipleDraggables.css" type="text/css" media="screen"/>
+<link rel="stylesheet" href="example.css" type="text/css" media="screen"/>
 <script src="jquery.js"></script>
 <script src="jqueryui.js"></script>
 <script src="jquery.multipleDraggables.js"></script>
 <script>
 $(function(){
-        $('.draggable').multipleDraggable();
+        $('#two>div').multipleDraggables({select:true});
+        $('#one>div').multipleDraggables();
 });
 </script>
 </head>
 <body>
-<div class="draggable"></div>
-<div class="draggable"></div>
-<div class="draggable"></div>
-<div class="draggable"></div>
-<div class="draggable"></div>
-<div class="draggable"></div>
+	<header>
+		<h1>jquery.multipledraggables</h1>
+		<p>
+			This is a jQuery plugin that works on top of jQueryUI to offer multiple draggable elements. So it basically allows the user to select multiple elements to drag at the same. This plugin uses CSS3 for the animations, but default functionality will still work in older browsers.
+		</p>
+	</header>
+	<section id="one">
+		<h2>Example one</h2>
+		<p>
+			In this example, all of the elements below can be dragged togther at the same time.
+		</p>
+		<div class="draggable"></div>
+		<div class="draggable"></div>
+		<div class="draggable"></div>
+		<div class="draggable"></div>
+		<div class="draggable"></div>
+		<div class="draggable"></div>
+</section>
+<section id="two">
+	<h2>Example two</h2>
+	<p>
+		In this example, you can select which of the elements below you want to drag togther. Simply click to toggle which ones will be dragged.
+	</p>
+	<div class="draggable"></div>
+	<div class="draggable"></div>
+	<div class="draggable"></div>
+	<div class="draggable"></div>
+	<div class="draggable"></div>
+	<div class="draggable"></div>
+</section>
+<section id="usage">
+	<h2>Usage</h2>
+	<ol>
+		<li>
+			You must include this in the head part of your html page. Where ".draggable" is the class given to all the elements that will be dragged together.
+
+<pre>
+&lt;script src="jquery.js"&gt;&lt;/script&gt;
+&lt;script src="jqueryui.js"&gt;&lt;/script&gt;
+&lt;script src="jquery.multipleDraggable.js"&gt;&lt;/script&gt;
+&lt;script&gt;
+$(function(){
+    $('.draggable').multipleDraggable();
+});
+&lt;/script&gt;
+&lt;/head&gt;</pre>
+		</li>
+		<li>
+			You can extend the functionality by adding start, drag &amp; stop functions just like in jQuery's draggable.
+			<pre>
+$('.draggable').multipleDraggable({
+	start: function(){ 
+		console.log('Starting Multiple Drag');
+	},
+	drag: function(){ 
+		console.log('dragging!');
+	},
+	stop: function(){ 
+		console.log('Stopped Multiple Drag');
+	}
+});</pre>
+		</li>
+		<li>
+			You can enable the user to first select the item's to be dragged by setting the 'select' attribute to true. You can also specifiy a custom class for the selected item's to have to diffrentiate them from the none selected items using the 'highlight' attribute. Moreover you can extend the select functionality by adding a click function.
+			<pre>
+$('.draggable').multipleDraggable({
+	select: true,
+	highlight: 'highlighted',
+	click: function(){ 
+		console.log('Selected element to drag');
+	}
+});</pre>
+		</li>
+		<li>
+			Also if you don't like the way the placeholder looks, you can customize it by setting a custom class to the 'placeholder' attribute.
+			<pre>
+$('.draggable').multipleDraggable({
+	placeholder: 'placeholder'
+});</pre>
+		</li>
+		<li>
+			In the body part of your html page all you need to add is the following:
+			<pre>
+&lt;body&gt;
+	&lt;div class="draggable"&gt;&lt;/div&gt;
+	&lt;div class="draggable"&gt;&lt;/div&gt;
+	&lt;div class="draggable"&gt;&lt;/div&gt;
+	&lt;div class="draggable"&gt;&lt;/div&gt;
+	&lt;div class="draggable"&gt;&lt;/div&gt;
+	&lt;div class="draggable"&gt;&lt;/div&gt;
+&lt;/body&gt;</pre>
+		</li>
+	<ul>
+</section>
+<section id="contact">
+<h2>Contact</h1>
+	<ul>
+		<li><b>Twitter:</b> @elleestcrimi</li>
+		<li><b>Email:</b> iistcrimi@gmail.com</li>
+	</ul>
+</section>
+<footer>
+	&copy; elleestcrimi.me, 2012
+</footer>
 </body>
 </html>

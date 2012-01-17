@@ -13,12 +13,20 @@
         -o-transition: all 0.5s;
 }
 
-.ui-multi-draggables
+.ui-multi-selected
 {
-        z-index: 2;
+        border:2px solid blue !important;
 }
 
 .ui-multi-dragging
 {
-        z-index:3;
+        position: relative !important;
+}
+
+.clone
+{
+        background-color:rgba(0,0,0,0.3) !important;
+        opacity:0.5;
+        z-index:-1 !important;
+        position: relative;
 }
