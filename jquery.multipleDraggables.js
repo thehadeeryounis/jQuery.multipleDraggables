@@ -1,7 +1,7 @@
 /*
  * jQuery Multiple Draggables
  *
- * Version 0.8
+ * Version 0.9
  *
  * Author : Hadeer Younis <iistcrimi@gmail.com>
  *
@@ -11,20 +11,38 @@
 
         var settings = $.extend({
             handle: false,
+            select: false,  
+            placeholder: 'clone',
+            highlight: 'ui-multi-selected',
+            liveMode: false,
+            selector: false,
             start: function() {},
             drag: function() {},
             stop: function() {},
-            select: false,
-            click: function() {},
-            placeholder: 'clone',
-            highlight: 'ui-multi-selected'
+            click: function() {}
         }, options);
 
         var offset = 0;
         var t;
         var to_drag = this;
         var down = 1;
+
+        if(settings.liveMode)
+        {
+            $(settings.selector).live('mouseover',function(){
+                if(!jQuery.data(this, "jqm"))
+                {
+                    attachDragEventHandler(this);
+                    attachMouseListener(this);
+                    jQuery.data(this, "jqm", true);
+                }
+            });
+        }
         
+        this.each(function(){
+            jQuery.data(this, "jqm", true);
+        });
+
         attachDragEventHandler(this);
 
         attachMouseListener(this);
