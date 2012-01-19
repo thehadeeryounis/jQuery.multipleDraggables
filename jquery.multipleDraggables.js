@@ -27,27 +27,32 @@
         var to_drag = this;
         var down = 1;
 
-        if(settings.liveMode)
-        {
-            $(settings.selector).live('mouseover',function(){
-                if(!jQuery.data(this, "jqm"))
-                {
-                    attachDragEventHandler(this);
-                    attachMouseListener(this);
-                    jQuery.data(this, "jqm", true);
-                }
-            });
-        }
-        
-        this.each(function(){
-            jQuery.data(this, "jqm", true);
-        });
-
-        attachDragEventHandler(this);
-
-        attachMouseListener(this);
+        init(this);
     
         /*******************HELPER METHODS***************************/
+
+        function init(us)
+        {
+            if(settings.liveMode)
+            {
+                $(settings.selector).live('mouseover',function(){
+                    if(!jQuery.data(this, "jqm"))
+                    {
+                        attachDragEventHandler(this);
+                        attachMouseListener(this);
+                        jQuery.data(this, "jqm", true);
+                    }
+                });
+            }
+            
+            us.each(function(){
+                jQuery.data(this, "jqm", true);
+            });
+
+            attachDragEventHandler(us);
+
+            attachMouseListener(us);
+        }
 
         function attachMouseListener(us)
         {
