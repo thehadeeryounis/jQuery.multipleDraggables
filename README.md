@@ -4,7 +4,7 @@ This is a jQuery plugin that works on top of jQueryUI to offer multiple draggabl
 
 ## Version
 
-* 0.8 beta
+* 0.9 beta
 
 ## Dependencies
 
@@ -19,33 +19,33 @@ Email  : iistcrimi@gmail.com
 
 ## Usage
 
-1) You must include this in the head part of your html page. Where “.draggable” is the class given to all the elements that will be dragged together.
+1)	You must include this in the head part of your html page. Where ".draggable" is the class given to all the elements that will be dragged together.
 
 ```
-<script src="jquery.js"></script>
-<script src="jqueryui.js"></script>
-<script src="jquery.multipleDraggable.js"></script>
-<script>
+<script src="jquery.js">;</script>;
+<script src="jqueryui.js">;</script>;
+<script src="jquery.multipleDraggable.js">;</script>;
+<script>;
 $(function(){
-        $('.draggable').multipleDraggable();
+    $('.draggable').multipleDraggable();
 });
-</script>
-</head>
+</script>;
+</head>;
 ```
-
-2) You can extend the functionality by adding start, drag & stop functions just like in jQuery’s draggable.
+		
+2) You can extend the functionality by adding start, drag &amp; stop functions just like in jQuery's draggable.
 
 ```
 $('.draggable').multipleDraggable({
-        start: function(){ 
-	        console.log('Starting Multiple Drag');
-	    },
-        drag: function(){ 
-	        console.log('dragging!');
-	    },
-        stop: function(){ 
-	        console.log('Stopped Multiple Drag');
-	    }
+	start: function(){ 
+		console.log('Starting Multiple Drag');
+	},
+	drag: function(){ 
+		console.log('dragging!');
+	},
+	stop: function(){ 
+		console.log('Stopped Multiple Drag');
+	}
 });
 ```
 
@@ -60,7 +60,8 @@ $('.draggable').multipleDraggable({
 	}
 });
 ```
-
+		
+		
 4) Also if you don't like the way the placeholder looks, you can customize it by setting a custom class to the 'placeholder' attribute.
 
 ```
@@ -68,8 +69,38 @@ $('.draggable').multipleDraggable({
 	placeholder: 'placeholder'
 });
 ```
+				
+5) If you're working with dynamic content, then you can use liveMode. This enables all dynamically created dom elements that correspond to a certain 'selector' to be multiple draggables too.
 
-5) In the body part of your html page all you need to add is the following:
+```
+$('.draggable').multipleDraggable({
+	liveMode: true,
+	selector: '#items .new'
+});
+```
+		
+6) If you want to have many non-connected groups of multiple draggables, then for each group specifiy a diffrent highlight attribute. On the other hand not specifing a highlight attribute for any of thr groups, will lead to them being connected. Also defining more than one group with the same highlight attribute, leads to those groups being connected.
+
+```
+// This is the first group
+$('#one .draggable').multipleDraggable({
+	highlight: 'one'
+});
+
+// This is the second group
+$('#two .draggable').multipleDraggable({
+	highlight: 'two'
+});
+
+// This is the third group
+// It is connected to the first group
+$('#three .draggable').multipleDraggable({
+	highlight: 'one'
+});
+		
+```
+
+7) In the body part of your html page all you need to add is the following:
 
 ```
 <body>
@@ -82,6 +113,6 @@ $('.draggable').multipleDraggable({
 </body>
 ```
 
-5) And thats it!
+8) And thats it!
 
-6) You can see the demo at [this link](http://labs.elleestcrimi.me/jquery-multipledraggable/)
+9) You can see the demo at [this link](http://labs.elleestcrimi.me/jquery-multipledraggable/)
