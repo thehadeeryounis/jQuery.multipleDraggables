@@ -8,7 +8,6 @@
  */
 (function ($) {
     $.fn.multipleDraggables = function (options) {
-
         var settings = $.extend({
             handle: false,
             select: false,  
@@ -28,7 +27,6 @@
         var down = 1;
 
         init(this);
-    
         /*******************HELPER METHODS***************************/
 
         function init(us)
@@ -65,7 +63,6 @@
                 $('.ui-multi-dragging').removeClass('ui-multi-dragging');
                 $(this).addClass('ui-multi-dragging');
                 to_drag = $('.'+settings.highlight).not('.ui-multi-dragging');
-                console.log(to_drag);
             });
 
             if(!settings.select)
@@ -114,8 +111,7 @@
             }).css('position', 'absolute');
             $('.ui-multi-dragging').after('<div class="'+settings.placeholder+'"></div>');
             $('.ui-multi-dragging').css({
-                marginRight: '-'+$('.ui-multi-dragging').outerWidth()+'px !important',
-                position: 'relative !important'
+                'margin-right': '-'+$('.ui-multi-dragging').outerWidth()+'px'
             });
             $('.'+settings.placeholder).show();
             t = window.setTimeout(help, 400);

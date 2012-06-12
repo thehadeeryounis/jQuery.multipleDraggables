@@ -33,7 +33,6 @@ header p
 {
   background-color:rgba(0,0,0,0.3) !important;
   opacity:0.5;
-  z-index:-1 !important;
   position: relative;
   height:104px;
   width:104px;
@@ -49,6 +48,15 @@ html
   margin:0 10px
 }
 
+div.droppable
+{
+  margin:10px 10px 10px 0;
+  background:yellow;
+  border:2px solid #333;
+  min-height:200px;
+  cursor:move  
+}
+
 div.draggable, div.drag
 {
   margin:10px 10px 10px 0;
@@ -58,6 +66,11 @@ div.draggable, div.drag
   width:100px;
   height:100px;
   cursor:move
+}
+
+div.droppable.hover
+{
+  background:green;
 }
 
 div.drag
