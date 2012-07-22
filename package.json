@@ -1,0 +1,40 @@
+{
+    "name": "Multiple Draggables",
+    "version": "0.9",
+    "title": "jQuery.multipleDraggables()",
+    "author": {
+        "name": "Elleestcrimi",
+        "url": "http://elleestcrimi.me"
+    },
+    "licenses": [
+        {
+            "type": "MIT",
+            "url": "https://github.com/jquery/jquery-color/raw/2.0.0-beta.1/MIT-LICENSE.txt"
+        },
+        {
+            "type": "GPLv2",
+            "url": "https://github.com/jquery/jquery-color/raw/2.0.0-beta.1/GPL-LICENSE.txt"
+        }
+    ],
+    "dependencies": {
+        "jquery": ">=1.6",
+        "jqueryui": ">=1.8"
+    },
+    "description": "a jQuery plugin that extends jQueryUI's draggable functionality to enable multi-draggable elements, using CSS3",
+    "keywords": [
+        "draggable",
+        "drag",
+        "drop",
+        "multiple"
+    ],
+    "homepage": "http://labs.elleestcrimi.me/jquery-multipledraggable/",
+    "demo": "http://labs.elleestcrimi.me/jquery-multipledraggable/",
+    "docs": "http://labs.elleestcrimi.me/jquery-multipledraggable/",
+    "bugs": "https://github.com/elleestcrimi/jQuery.multipleDraggables/issues",
+    "maintainers": [
+        {
+          "name": "Elleestcrimi",
+          "url": "http://elleestcrimi.me"
+        }
+    ]
+}

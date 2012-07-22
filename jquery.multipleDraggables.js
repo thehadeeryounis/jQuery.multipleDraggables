@@ -1,11 +1,3 @@
-/*
- * jQuery Multiple Draggables
- *
- * Version 0.9
- *
- * Author : Hadeer Younis <iistcrimi@gmail.com>
- *
- */
 (function ($) {
     $.fn.multipleDraggables = function (options) {
         var settings = $.extend({
