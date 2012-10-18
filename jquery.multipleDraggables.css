@@ -1,20 +1,37 @@
-.animate
-{
-        transition: transform 0.5s;
-        -moz-transition: -moz-transform 0.5s;
-        -webkit-transition: -webkit-transform 0.5s;
-        -o-transition: -o-transform 1s;
-}
-.animate2
-{
-        transition: all 0.5s;
-        -moz-transition: all 0.5s;
-        -webkit-transition: all 0.5s;
-        -o-transition: all 0.5s;
+.animate {
+  -webkit-transition: -webkit-transform 0.5s;
+  -moz-transition: -moz-transform 0.5s;
+  -o-transition: -o-transform 0.5s;
+  transition: transform 0.5s;
 }
 
+.animate2 {
+  -webkit-transition: all 0.5s;
+  -moz-transition: all 0.5s;
+  -o-transition: all 0.5s;
+  transition: all 0.5s;
+}
 
-.ui-multi-dragging
-{
-        position: relative !important;
+.clone {
+  position: absolute!important;
+  -webkit-transition: -webkit-transform 0.5s;
+  -moz-transition: -moz-transform 0.5s;
+  -o-transition: -o-transform 0.5s;
+  transition: transform 0.5s;
+}
+
+.following,
+.dragging {
+  border: 2px solid yellow;
+}
+
+.over {
+  border: 2px solid #3A87FE;
+}
+
+[draggable] {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  user-select: none;
+  -khtml-user-select: none;
 }

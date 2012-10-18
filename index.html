@@ -1,338 +1,39 @@
+<!DOCTYPE html>
 <html>
 <head>
+<meta http-equiv="Content-Type" content="text/html; charset=windows-1250">
+<title>;)</title>    
+<link type="text/css" rel="stylesheet" href="css/style.css">
+<link type="text/css" rel="stylesheet" href="css/font-face.css">
+<link href="http://fonts.googleapis.com/css?family=Great+Vibes" rel="stylesheet" type="text/css">
 <link rel="stylesheet" href="jquery.multipleDraggables.css" type="text/css" media="screen"/>
-<link rel="stylesheet" href="example.css" type="text/css" media="screen"/>
-<script src="jquery.js"></script>
-<script src="jqueryui.js"></script>
-<script src="jquery.multipleDraggables.js"></script>
-<script type="text/javascript" src="http://balupton.github.com/jquery-syntaxhighlighter/scripts/jquery.syntaxhighlighter.min.js"></script>
-<script>
-$(function(){
-        $('#two>div').multipleDraggables({
-	        select:true, 
-	        placeholder:'clone',
-	        highlight: 'two'
-	    });
-
-	    $('.draggable').disableSelection();
-	    $('.droppable').droppable({
-	    	accept: '.draggable',
-	    	hoverClass: 'hover',
-	    	over:function(event,ui){	
-		        $('.animate.draggable,.ui-multi-dragging').each(function () {
-                    if ($(event.target).find('.clone').length < $('.animate.draggable,.ui-multi-dragging').length){
-                    	$(event.target).append($(this).next().clone().addClass('copy'))
-                    }
-                });
-	    	},
-	    	out:function(event, ui)
-	    	{
-	    		$(event.target).find('.clone.copy').remove();
-	    	},
-            addClasses: false,
-            drop: function (event, ui) {
-                $('.animate.draggable,.ui-multi-dragging').each(function () {
-                	if($(this).parent()[0] ==  event.target)
-                		return;
-                    var index = $('.animate.draggable,.ui-multi-dragging').index(this);
-                    var clone = $(event.target).find('.clone')[index];
-                    $(event.target).append($(this))
-                	$.data(this, 'x', $(clone).position().left);
-                	$.data(this, 'y', $(clone).position().top);
-                });
-            }
-	    })	    
-        $('#one>div').multipleDraggables({
-	        highlight: 'one', 
-	        placeholder:'clone'
-	    });
-
-        $('#zero>div.draggable').multipleDraggables({
-	        highlight: 'one', 
-	        placeholder:'clone'
-	    });
-
-        $('#three .draggable').multipleDraggables({
-	        highlight: 'three',
-	        liveMode: true,
-	        selector: '#three .draggable', 
-	        placeholder:'clone'
-	    });
-
-	    $('#four .draggable').multipleDraggables({
-	        highlight: 'four',
-	        select: true,
-	        liveMode: true,
-	        selector: '#four .draggable', 
-	        placeholder:'clone'
-	    });
-
-	    $('#five .draggable').multipleDraggables({
-	        highlight: 'four',
-	        select: true,
-	        liveMode: true,
-	        selector: '#five .draggable', 
-	        placeholder:'clone'
-	    });
-
-	    $('.adder').click(function(){
-	    	$(this).before('<div class="draggable drag"></div>');
-	    });
-
-	    $.SyntaxHighlighter.init();
-});
-</script>
-<script type="text/javascript">
-
-  var _gaq = _gaq || [];
-  _gaq.push(['_setAccount', 'UA-28427203-1']);
-  _gaq.push(['_trackPageview']);
-
-  (function() {
-    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-  })();
-
-</script>
 </head>
 <body>
-	<header>
-		<h1>jquery.multipledraggables</h1>
-		<p>
-			This is a jQuery plugin that works on top of jQueryUI to offer multiple draggable elements. So it basically allows the user to select multiple elements to drag at the same. This plugin uses CSS3 for the animations, but default functionality will still work in older browsers.
-		</p>
-	</header>
-	<section>
-		<h2>Contents</h2>
-		<ol>
-			<li><a href="#one">Example one: Normal Mode</a></li>
-			<li><a href="#two">Example two: Select Mode</a></li>
-			<li><a href="#three">Example three: Live Mode</a></li>
-			<li><a href="#four">Example four: Live Mode &amp; Select Mode</a></li>
-			<li><a href="#usage">Usage</a></li>
-			<li><a href="#download">Download</a></li>
-			<li><a href="#contact">Contact me</a></li>
-			<li><a href="#disqus">Leave a comment</a></li>
-		</ol>
-
-	<section id="one">
-		<h2>Example one: Normal Mode</h2>
-		<p>
-			In this example, all of the elements below can be dragged togther at the same time.
-		</p>
-		<div class="draggable"></div>
-		<div class="draggable"></div>
-		<div class="draggable"></div>
-		<div class="draggable"></div>
-		<div class="draggable"></div>
-		<div class="draggable"></div>
-		<p>
-			This is the code that generates it:
-<pre class="highlight">
-	$('#one>div').multipleDraggables({
-	    highlight: 'one', 
-	    placeholder:'clone'
-	});
-</pre>
-		</p>
-</section>
-<section id="two">
-	<h2>Example two: Select Mode</h2>
-	<p>
-		In this example, you can select which of the elements below you want to drag togther. Simply click to toggle which ones will be dragged.
-	</p>
-	<div class="draggable"></div>
-	<div class="draggable"></div>
-	<div class="draggable"></div>
-	<div class="draggable"></div>
-	<div class="draggable"></div>
-	<div class="draggable"></div>
-	<p>
-		This is the code that generates it:
-<pre class="highlight">
-    $('#two>div').multipleDraggables({
-        select:true, 
-        placeholder:'clone',
-        highlight: 'two'
-    });
-</pre>
-	</p>
-</section>
-<section id="three">
-	<h2>Example three: Live Mode</h2>
-	<p>
-		In this example, the draggables are in live mode. This means that if a dynamically create new pink boxes, they will be part of the multiple draggables.
-	</p>
-	<div class="draggable"></div>
-	<div class="draggable"></div>
-	<div class="draggable"></div>
-	<div class="draggable"></div>
-	<div class="draggable"></div>
-	<div class="adder"></div>
-	<p>
-		This is the code that generates it:
-<pre class="highlight">
-    $('#three .draggable').multipleDraggables({
-        highlight: 'three',
-        liveMode: true,
-        selector: '#three .draggable', 
-        placeholder:'clone'
-    });
-</pre>
-	</p>	
-</section>
-<section id="four">
-	<h2>Example four: Live Mode &amp; Select Mode</h2>
-	<p>
-		This example shows select mode with live mode.
-	</p>
-	<div class="draggable"></div>
-	<div class="draggable"></div>
-	<div class="draggable"></div>
-	<div class="draggable"></div>
-	<div class="draggable"></div>
-	<div class="adder"></div>
-	<p>
-		This is the code that generates it:
-<pre class="highlight">
-    $('#four .draggable').multipleDraggables({
-        highlight: 'four',
-        select: true,
-        liveMode: true,
-        selector: '#four .draggable', 
-        placeholder:'clone'
-    });
-</pre>
-	</p>	
-</section>
-<section id="five">
-	<h2>Example five: Live Mode &amp; Select Mode + droppable</h2>
-	<p>
-		This example shows select mode with live mode.
-	</p>
-	<div class="droppable"></div>
-	<div class="droppable"></div>
-	<div class="draggable"></div>
-	<div class="draggable"></div>
-	<div class="draggable"></div>
-	<div class="draggable"></div>
-	<div class="draggable"></div>
-	<div class="adder"></div>
-	<p>
-		This is the code that generates it:
-		<pre class="highlight">
-		// TODO
-		</pre>
-	</p>	
-</section>
-<section id="usage">
-	<h2>Usage</h2>
-	<ol>
-		<li>
-			You must include this in the head part of your html page. Where ".draggable" is the class given to all the elements that will be dragged together.
-
-<pre class="highlight">
-&lt;script src="jquery.js"&gt;&lt;/script&gt;
-&lt;script src="jqueryui.js"&gt;&lt;/script&gt;
-&lt;script src="jquery.multipleDraggable.js"&gt;&lt;/script&gt;
-&lt;script&gt;
-$(function(){
-    $('.draggable').multipleDraggable();
-});
-&lt;/script&gt;
-&lt;/head&gt;</pre>
-		</li>
-		<li>
-			You can extend the functionality by adding start, drag &amp; stop functions just like in jQuery's draggable.
-			<pre class="highlight">
-$('.draggable').multipleDraggable({
-	start: function(){ 
-		console.log('Starting Multiple Drag');
-	},
-	drag: function(){ 
-		console.log('dragging!');
-	},
-	stop: function(){ 
-		console.log('Stopped Multiple Drag');
-	}
-});</pre>
-		</li>
-		<li>
-			You can enable the user to first select the item's to be dragged by setting the 'select' attribute to true. You can also specifiy a custom class for the selected item's to have to diffrentiate them from the none selected items using the 'highlight' attribute. Moreover you can extend the select functionality by adding a click function.
-			<pre class="highlight">
-$('.draggable').multipleDraggable({
-	select: true,
-	highlight: 'highlighted',
-	click: function(){ 
-		console.log('Selected element to drag');
-	}
-});</pre>
-		</li>
-		<li>
-			Also if you don't like the way the placeholder looks, you can customize it by setting a custom class to the 'placeholder' attribute.
-			<pre class="highlight">
-$('.draggable').multipleDraggable({
-	placeholder: 'placeholder'
-});</pre>
-		</li>
-		<li>
-			If you're working with dynamic content, then you can use liveMode. This enables all dynamically created dom elements that correspond to a certain 'selector' to be multiple draggables too.
-			<pre class="highlight">
-$('.draggable').multipleDraggable({
-	liveMode: true,
-	selector: '#items .new'
-});</pre>
-		</li>
-		<li>If you want to have many non-connected groups of multiple draggables, then for each group specifiy a diffrent highlight attribute. On the other hand not specifing a highlight attribute for any of thr groups, will lead to them being connected. Also defining more than one group with the same highlight attribute, leads to those groups being connected.
-			<pre class="highlight">
-// This is the first group
-$('#one .draggable').multipleDraggable({
-	highlight: 'one'
-});
-
-// This is the second group
-$('#two .draggable').multipleDraggable({
-	highlight: 'two'
-});
-
-// This is the third group
-// It is connected to the first group
-$('#three .draggable').multipleDraggable({
-	highlight: 'one'
-});
-</pre>
-		</li>
-		<li>
-			In the body part of your html page all you need to add is the following:
-			<pre class="highlight">
-&lt;body&gt;
-	&lt;div class="draggable"&gt;&lt;/div&gt;
-	&lt;div class="draggable"&gt;&lt;/div&gt;
-	&lt;div class="draggable"&gt;&lt;/div&gt;
-	&lt;div class="draggable"&gt;&lt;/div&gt;
-	&lt;div class="draggable"&gt;&lt;/div&gt;
-	&lt;div class="draggable"&gt;&lt;/div&gt;
-&lt;/body&gt;</pre>
-		</li>
-	<ul>
-</section>
-<section id="download">
-<h2>How to get it!</h2>
-	<ul>
-		<li>Download the <a href="http://elleestcrimi.me/wp-content/plugins/download-monitor/download.php?id=1">zip</a></li>
-		<li>Clone it off from <a href="https://github.com/elleestcrimi/jQuery.multipleDraggables">github</a></li>
-	</ul>
-</section>
-<section id="contact">
-<h2>Contact</h2>
-	<ul>
-		<li><b>Twitter:</b> @elleestcrimi</li>
-		<li><b>Email:</b> iistcrimi@gmail.com</li>
-	</ul>
-</section>
-<section id="disqus">
-<h2>Discussion</h2>
+  <div id="navbar">
+    <div class="logotype">
+      Elleestcrimi | <span>jquery.multipleDraggables</span>
+    </div>
+    <div class="links">
+      <a href="elleestcrimi.me">Blog</a>
+      <a href="folio.elleestcrimi.me">Folio</a>
+      <a href="twitter.com/elleestcrimi">twitter</a>
+    </div>
+  </div>
+  <div class="introduction">
+    This is a jQuery plugin that enables you to drag multiple elements at the same time using HTML5 and CSS3. This most probably will not work on all browsers so use at your own risk! If you would like a more stable and backward compatiable release please checkout version 0.10 from the downloads section.
+    <br/>
+    <br/>
+    The "How to" section is coming soon! Until then, view page source and have fun!!
+  </div>
+    <div id="columns">
+      <div class="column" draggable="true"><header>A</header></div>
+      <div class="column" draggable="true"><header>B</header></div>
+      <div class="column" draggable="true"><header>C</header></div>
+      <div class="column" draggable="true"><header>D</header></div>
+      <div class="column" draggable="true"><header>E</header></div>
+      <div class="column" draggable="true"><header>F</header></div>
+    </div>
+  <div class="discuss">
 <div id="disqus_thread"></div>
 <script type="text/javascript">
     /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
@@ -346,10 +47,16 @@ $('#three .draggable').multipleDraggable({
     })();
 </script>
 <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-<a href="http://disqus.com" class="dsq-brlink">blog comments powered by <span class="logo-disqus">Disqus</span></a>
-</section>
-<footer>
-	&copy; elleestcrimi.me, 2012
-</footer>
+  </div>
+<script src="jquery.js"></script>
+<script src="jquery.multipleDraggables.js"></script>
+<!--script type="text/javascript" src="http://balupton.github.com/jquery-syntaxhighlighter/scripts/jquery.syntaxhighlighter.min.js"></script-->
+<script>
+$(function(){
+
+    $('#columns').multipleDraggables('init');
+    //$.SyntaxHighlighter.init();
+});
+</script>
 </body>
 </html>

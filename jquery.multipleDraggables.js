@@ -1,161 +1,151 @@
 (function ($) {
-    $.fn.multipleDraggables = function (options) {
-        var settings = $.extend({
-            handle: false,
-            select: false,  
-            placeholder: 'clone',
-            highlight: 'ui-multi-selected',
-            liveMode: false,
-            selector: false,
-            start: function() {},
-            drag: function() {},
-            stop: function() {},
-            click: function() {}
-        }, options);
+    $.fn.isAfter = function (sel) {
+        return this.prevAll(sel).length != 0;
+    }
 
-        var offset = 0;
-        var t;
-        var to_drag = this;
-        var down = 1;
-
-        init(this);
-        /*******************HELPER METHODS***************************/
-
-        function init(us)
-        {
-            if(settings.liveMode)
-            {
-                $(settings.selector).live('mouseover',function(){
-                    if(!jQuery.data(this, "jqm"))
-                    {
-                        attachDragEventHandler(this);
-                        attachMouseListener(this);
-                        jQuery.data(this, "jqm", true);
-                    }
-                });
-            }
-            
-            us.each(function(){
-                jQuery.data(this, "jqm", true);
-            });
-
-            attachDragEventHandler(us);
-
-            attachMouseListener(us);
-        }
-
-        function attachMouseListener(us)
-        {
-            $(us).mousedown(function () {
-                if($(this).hasClass(settings.highlight))
-                    down = 1;
-                else
-                    down = -1;
-                $(this).addClass(settings.highlight);
-                $('.ui-multi-dragging').removeClass('ui-multi-dragging');
-                $(this).addClass('ui-multi-dragging');
-                to_drag = $('.'+settings.highlight).not('.ui-multi-dragging');
-            });
-
-            if(!settings.select)
-                $(us).addClass(settings.highlight)
-            else
-                $(us).mouseup(function(){
-                    down++;
-                    if(down == 2)
-                        $(this).removeClass(settings.highlight)
-                    settings.click()    
-                });
-        }
-
-        function attachDragEventHandler(me) {
-            $(me).draggable({
-                handle: settings.handle,
-                start: function () {
-                    startHelper();
-                    settings.start();
-                },
-                drag: function (e) {
-                    dragHelper(e);
-                    settings.drag();
-                },
-                addClasses: false,
-                stop: function () {
-                    stopHelper();  
-                },
-                revert: function(){
-                    revertHelper();
-                    return true;
-                },
-                revertDuration: 500,
-                zIndex:10
-            }).removeAttr('style')
-        }
-
-        function startHelper() {
-            down++;
-            offset = $('.ui-multi-dragging').position();
-            $(to_drag).each(function () {
-                jQuery.data(this, 'x', $(this).position().left);
-                jQuery.data(this, 'y', $(this).position().top);
-                $(this).after('<div class="'+settings.placeholder+'"></div>')
-                $(this).next().hide();
-            }).css('position', 'absolute');
-            $('.ui-multi-dragging').after('<div class="'+settings.placeholder+'"></div>');
-            $('.ui-multi-dragging').css({
-                'margin-right': '-'+$('.ui-multi-dragging').outerWidth()+'px'
-            });
-            $('.'+settings.placeholder).show();
-            t = window.setTimeout(help, 400);
-        }
-
-        function revertHelper() {
-            clearTimeout(t);
-            $(to_drag).each(function () {
-                $(this).addClass('animate2').css({
-                    transform: 'rotate(0deg)',
-                    '-moz-transform': 'rotate(0deg)',
-                    '-o-transform': 'rotate(0deg)',
-                    '-webkit-transform': 'rotate(0deg)',
-                    top: jQuery.data(this, "y") + 'px',
-                    left: jQuery.data(this, "x") + 'px'
-                })
-            })
-        }
-
-        function stopHelper() {
-            $(to_drag).removeClass('rotate animate animate2').removeAttr('style')
-            $('.'+settings.placeholder).remove();
-            $('.ui-multi-dragging').removeAttr('style');
-            settings.stop();
-        }
-
-        function help() {
-            var deg = 15;
-            $(to_drag).each(function () {
-                $(this).addClass('animate')
-                var d_x = offset.left - parseInt(jQuery.data(this, "x"));
-                var d_y = offset.top - parseInt(jQuery.data(this, "y"));
-                deg *= -1;
-                $(this).css({
-                    transform: 'translate(' + d_x + 'px,' + d_y + 'px) rotate('+deg+'deg) ',
-                    '-moz-transform': 'translate(' + d_x + 'px,' + d_y + 'px) rotate('+deg+'deg) ',
-                    '-o-transform': 'translate(' + d_x + 'px,' + d_y + 'px) rotate('+deg+'deg) ',
-                    '-webkit-transform': 'translate(' + d_x + 'px,' + d_y + 'px) rotate('+deg+'deg) '
-                })
-            })
-        }
-
-        function dragHelper(e) {
-            var offset_new = $('.ui-multi-dragging').position();
-            $(to_drag).each(function () {
-                var me_x = parseInt(jQuery.data(this, "x"), 10) + (offset_new.left - offset.left);
-                var me_y = parseInt(jQuery.data(this, "y"), 10) + (offset_new.top - offset.top);
-                $(this).css({
-                    top: me_y + 'px',
-                    left: me_x + 'px'
-                });
-            });
-        }
+    $.fn.multipleDraggables = function (method) {
+        if (methods[method]) return methods[method].apply(this, Array.prototype.slice.call(arguments, 1));
+        else if (typeof method === 'object' || !method || method == undefined) return methods.init.apply(this, arguments);
+        else $.error('Method ' + method + ' does not exist on jQuery.tooltip');
     };
+var deg = 10;
+var dropped = false;
+var settings = {
+    select: false,
+    placeholder: 'clone',
+    highlight: 'following',
+    liveMode: false,
+    selector: false,
+    appendTo: 'body',
+    start: function () {},
+    drag: function () {},
+    stop: function () {},
+    click: function () {}
+};
+var methods = {
+    init: function (options) {
+        settings = $.extend(settings, options);
+        $('.column').data('md',settings)
+        $('.column').each(function (i, col) {
+            col.addEventListener('dragstart', methods.dragStart, false);
+            col.addEventListener('dragenter', methods.dragEnter, false);
+            col.addEventListener('dragover', methods.dragOver, false);
+            col.addEventListener('dragleave', methods.dragLeave, false);
+            col.addEventListener('dragend', methods.dragEnd, false);
+            col.addEventListener('drag', methods.drag, false);
+            col.addEventListener('drop', methods.drop, false);
+        }).click(methods.click).mousedown(methods.mouseDown);
+    },
+    get: function(field) {
+        return methods.dragging().data('md')[field]
+    },
+    dragging: function(){
+        return $(".dragging:first").removeClass('following')
+    },
+    mouseDown: function () {
+        $(this).addClass("dragging being-dragged");
+    },
+    dragStart: function (e) {
+        e.dataTransfer.effectAllowed = 'move';
+        e.dataTransfer.setData('text/html', this.innerHTML);
+        me = methods.dragging()
+        dropped = false;
+        offset = me.offset()
+        varx = offset.left - e.pageX
+        vary = offset.top - e.pageY
+        $('.' + methods.get('highlight')).addClass("being-dragged").each(function (i, obj) {
+            var obj = $(this)
+            var clone = obj.clone()
+            clone.css({
+                top: $(obj).offset().top,
+                left: $(obj).offset().left,
+            }).toggleClass(methods.get('placeholder'))
+
+            $(methods.get('appendTo')).prepend(clone)
+
+            var d_x = offset.left - $(obj).offset().left;
+            var d_y = offset.top - $(obj).offset().top;
+            clone.data('off', {
+                top: d_y,
+                left: d_x
+            })
+            clone.data('off_org', $(obj).offset())
+            deg *= -1;
+            clone.css({
+                transform: 'translate(' + d_x + 'px,' + d_y + 'px) rotate(' + deg + 'deg) ',
+                '-moz-transform': 'translate(' + d_x + 'px,' + d_y + 'px) rotate(' + deg + 'deg) ',
+                '-o-transform': 'translate(' + d_x + 'px,' + d_y + 'px) rotate(' + deg + 'deg) ',
+                '-webkit-transform': 'translate(' + d_x + 'px,' + d_y + 'px) rotate(' + deg + 'deg) ',
+            })
+        });
+        $('.being-dragged').css('opacity', '0.4')
+    },
+    drag: function (e) {
+        var pos = methods.dragging().offset()
+        $('.' + methods.get('placeholder')).each(function () {
+            var d_x = -1 * ($(this).data('off').left - e.pageX - varx)
+            var d_y = -1 * ($(this).data('off').top - e.pageY - vary)
+            $(this).css({
+                top: d_y + "px",
+                left: d_x + "px",
+            })
+        })
+    },
+    dragEnd: function (e) {
+        if (dropped) {
+            $('.' + methods.get('placeholder')).each(function () {
+                $(this).css({
+                    transform: 'translate(0px,0px) rotate(0deg) ',
+                    '-moz-transform': 'translate(0px,0px) rotate(0deg) ',
+                    '-o-transform': 'translate(0px,0px) rotate(0deg) ',
+                    '-webkit-transform': 'translate(0px,0px) rotate(0deg) ',
+                    top: $(this).data('off_org').top + "px",
+                    left: $(this).data('off_org').left + "px",
+                })
+            })
+            setTimeout(function () {
+                $('.' + methods.get('placeholder')).remove()
+                $('.being-dragged').css('opacity', '1')
+            }, 500)
+        }
+        $('.dragging').addClass('following')
+        $('.over,.dragging,.being-dragged').removeClass('over dragging being-dragged');
+
+    },
+    dragEnter: function (e) {
+        $(this).addClass('over')
+    },
+    dragOver: function (e) {
+        e.preventDefault();
+        e.dataTransfer.dropEffect = 'move'; // See the section on the DataTransfer object.
+        $(this).addClass('over')
+        return false;
+    },
+    dragLeave: function (e) {
+        $('.over').removeClass('over');
+    },
+    drop: function (e) {
+        dropped = true;
+        e.stopPropagation();
+        if ($(this).is('.following')) {
+            $(this).removeClass('following')
+            methods.moveElements($(this))
+            $(this).addClass('following')
+        } else if ($(this).is('.dragging')) {} else methods.moveElements($(this))
+
+        $('.being-dragged').css('opacity', '1')
+        $('.clone').remove();
+        return false;
+
+    },
+    click: function () {
+        $(this).toggleClass("following")
+
+        $(this).removeClass("dragging being-dragged");
+    },
+    moveElements: function (me) {
+        if (me.isAfter('.dragging')) me.after($('.dragging,.following'))
+        else me.before($('.dragging,.following'))
+    }
+}
 })(jQuery);
